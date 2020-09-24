@@ -17,12 +17,14 @@ logger.addHandler(handler)
 
 # Manual load cog command
 @bot.command()
+@commands.has_permissions(manage_messages=True)
 async def load(ctx, extension):
     bot.load_extension(f'cogs.{extension}')
 
 
 # Manual unload cog command
 @bot.command()
+@commands.has_permissions(manage_messages=True)
 async def unload(ctx, extension):
     bot.unload_extension(f'cogs.{extension}')
 
