@@ -5,7 +5,7 @@ import os
 
 
 description = '''This is the help stuff'''
-bot = commands.Bot(command_prefix='h-', description=description)
+bot = commands.Bot(command_prefix='-', description=description)
 
 # Right now this is used for local dev, eventually make this part of the audit functionality 
 logger = logging.getLogger('discord')
@@ -16,16 +16,24 @@ logger.addHandler(handler)
 
 
 # Manual load cog command
-@bot.command()
+@bot.command(description='Manual command for loading cogs')
 @commands.has_permissions(manage_messages=True)
+# @commands.has_role(729888040876769320) # literally.bots id
 async def load(ctx, extension):
+    """
+    Manual command for loading cogs
+    """
     bot.load_extension(f'cogs.{extension}')
 
 
 # Manual unload cog command
-@bot.command()
+@bot.command(description='Manual command for unloading cogs')
 @commands.has_permissions(manage_messages=True)
+# @commands.has_role(729888040876769320) # literally.bots id
 async def unload(ctx, extension):
+    """
+    Manual command for unloading cogs
+    """
     bot.unload_extension(f'cogs.{extension}')
 
 
