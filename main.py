@@ -16,30 +16,6 @@ handler.setFormatter(logging.Formatter('%(asctime)s:%(levelname)s:%(name)s: %(me
 logger.addHandler(handler)
 
 
-# Manual load cog command
-@bot.command(description='Manual command for loading cogs')
-@commands.has_permissions(manage_messages=True)
-@commands.has_any_role(729888040876769320, 'mod') # literally.bots id
-async def load(ctx, extension):
-    """
-    Manual command for loading cogs
-    """
-    bot.load_extension(f'cogs.{extension}')
-    await ctx.send(f'Successfully loaded in `{extension}` cog!')
-
-
-# Manual unload cog command
-@bot.command(description='Manual command for unloading cogs')
-@commands.has_permissions(manage_messages=True)
-@commands.has_any_role(729888040876769320, 'mod') # literally.bots id
-async def unload(ctx, extension):
-    """
-    Manual command for unloading cogs
-    """
-    bot.unload_extension(f'cogs.{extension}')
-    await ctx.send(f'Successfully unloaded the `{extension}` cog!')
-
-
 # Default invalid commad error message
 @bot.event
 async def on_command_error(ctx, error):
