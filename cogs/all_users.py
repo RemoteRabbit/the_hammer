@@ -60,10 +60,19 @@ class All_Users(commands.Cog):
         else:
             await ctx.send(f'Congrats on filling out your roles. Welcome aboard and have fun!')
             user = ctx.author
-            member_role = discord.utils.get(user.guild.roles, name="member")
+            member_role = discord.utils.get(user.guild.roles, name="literally.member")
             newbie_role = discord.utils.get(user.guild.roles, name="newbie")
             await discord.Member.add_roles(user, member_role) 
             await discord.Member.remove_roles(user, newbie_role)
+
+
+    @commands.command(description='Socialism is when the government does stuff!')
+    async def socialism(self, ctx):
+        """
+        Socialism is when the government does stuff!
+        """
+        await ctx.send(file=discord.File('./media/wolff_socialism.mp4', filename='wolff_socialism.mp4'))
+
 
 
 def setup(bot):

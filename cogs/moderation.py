@@ -1,14 +1,14 @@
-import discord
-from discord.ext import commands, tasks
-import os
-import psycopg2
 import datetime
-from dateutil.relativedelta import relativedelta
-import sqlalchemy
-from sqlalchemy import Table, Column, String, MetaData, Integer, select
-from discord.utils import get
-from discord import Colour
+import os
 
+import discord
+import psycopg2
+import sqlalchemy
+from dateutil.relativedelta import relativedelta
+from discord import Colour
+from discord.ext import commands, tasks
+from discord.utils import get
+from sqlalchemy import Column, Integer, MetaData, String, Table, select
 
 council_roles = ['literally.noam.chomsky', 'literally.server.admin', 'literally.moderator', 'literally.bots', 'mod', 'operations']
 
@@ -58,19 +58,20 @@ class Moderation(commands.Cog):
             results = conn.execute(s)
         except Exception as e:
             print(f'Error connecting and pull data from database table {e}')
-
         for row in results:
             current_date = datetime.datetime.now(datetime.timezone.utc)
             if row[2] <= current_date:
+                user_name = row[5]
+                print(f'We got one! {user_name} can now be unbanned/unmutted. Processing...')
                 user_id = row[0]
                 user = get(self.bot.get_all_members(), id=user_id)
                 unban = tempbans.delete().where(tempbans.c.user_id == user_id)
                 conn.execute(unban)
                 restricted_role = discord.utils.get(user.guild.roles, name="RESTRICTED")
                 await discord.Member.remove_roles(user, restricted_role)
-                message_channel = get(self.bot.get_channel(696171216708304967))
-                await message_channel.send(self, embed=discord.Embed(color=Colour.green(), title='@<user_id> has been unmuted!'))
-                
+                message_channel = discord.utils.get(self.bot.get_all_channels(), name='general')
+                await message_channel.send(embed=discord.Embed(color=Colour.green(), title=f'@{user_name} has been unmuted!', description='*This action automatically done by The Hammer*'))
+                print(f'Unmute of {user_name} successful!')
                 return
 
 
@@ -135,14 +136,17 @@ class Moderation(commands.Cog):
 
 
     @commands.command(description="Mutes a given user.")
-    @commands.has_permissions(mute_members=True)
+    @commands.has_any_role(*council_roles)
     async def mute(self, ctx, user:discord.Member, reason=None):
         """
         Mutes a given user.
         """
-        muteRole = discord.utils.get(ctx.guild.roles,name="RESTRICTED")
-        await ctx.send(embed=discord.Embed(color=Colour.red(), title=f'@<{user}> is Muted!', description=f'@<{user}> is not being muted.\nReason: {reason}'))
-        await user.add_roles(muteRole)
+        restricted_role = discord.utils.get(user.guild.roles, name="RESTRICTED")
+        await ctx.send(embed=discord.Embed(color=Colour.red(), title=f'@{user} is Muted!', description=f'@{user} nickname "{user.nick}" is now being muted.\nReason: {reason}\nMuted by @{ctx.author.nick}'))
+        await user.add_roles(restricted_role)
+        message_channel = discord.utils.get(self.bot.get_all_channels(), name='bans-and-reasoning')
+        await message_channel.send(embed=discord.Embed(color=Colour.red(), title=f'@{user} is Muted!', description=f'@{user} nickname "{user.nick}" is now being muted.\nReason: {reason}\nMuted by @{ctx.author.nick}'))
+
 
 
     @commands.command(description='Temp. Mute a given user over a given time; Y = years, M = Months, w = weeks, d = days, h = hours, and s = seconds \nExample: `-tempute @testaccount 1w example mute for one week`', pass_context=True)
@@ -209,12 +213,13 @@ class Moderation(commands.Cog):
 
     
     @commands.command(description='Used to unmute a given user')
+    @commands.has_any_role(*council_roles)
     async def unmute(self, ctx, user:discord.Member):
         """
         Used to unmute a given user.
         """
         restricted_role = discord.utils.get(user.guild.roles, name="RESTRICTED")
-        await ctx.send(embed=discord.Embed(color=Colour.green(), title=f'{user} has been unmuted!'))
+        await ctx.send(embed=discord.Embed(color=Colour.green(), title=f'{user} has been unmuted!', description=f'*Operation initiated by @{ctx.author.nick}*'))
         await discord.Member.remove_roles(user, restricted_role) 
 
 
