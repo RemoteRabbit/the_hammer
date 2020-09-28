@@ -14,10 +14,10 @@ class Other(commands.Cog):
         await ctx.send(random.choice(choices))
 
 
-    @commands.command(aliases=['8ball', 'eightball'], description='Will output a random 8 ball response provided a question <str>')
+    @commands.command(name='8ball', aliases=['eightball'], description='Will output a random 8 ball response provided a question <str>')
     async def _8ball(self, ctx, *, question):
         """
-        Random 8ball response in response to question; Aliases: 8ball, eightball
+        Random 8ball response in response to question
         """
         responses = ['It is certain',
                     'Without a doubt',
