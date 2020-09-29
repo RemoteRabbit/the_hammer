@@ -11,7 +11,6 @@ class Dev(commands.Cog):
         self.bot = bot
 
     # Manual load cog command
-
     @commands.command(description='Manual command for loading cogs')
     @commands.has_permissions(manage_messages=True)
     @commands.has_any_role('literally.bots', 'literally.dev')
@@ -23,7 +22,6 @@ class Dev(commands.Cog):
         await ctx.send(f'Successfully loaded in `{extension}` cog!')
 
     # Manual unload cog command
-
     @commands.command(description='Manual command for unloading cogs')
     @commands.has_permissions(manage_messages=True)
     @commands.has_any_role('literally.bots', 'literally.dev')

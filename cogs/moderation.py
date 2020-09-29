@@ -217,8 +217,13 @@ class Moderation(commands.Cog):
         insert(user.id, end_date, reason, user)
         await ctx.send(embed=discord.Embed(color=Colour.red(),
                                            title=f'{user} has been Temp Muted',
-                                           description=f'Reason: {reason}\nTimeline: {d_time} {d_term}\n*Operation initited by @{ctx.author.nick}*'))
+                                           description=f'Reason: {reason}\nTimeline: {d_time} {d_term}\n*Operation initiated by @{ctx.author.nick}*'))
         await user.add_roles(restricted_role)
+        bans_channel = discord.utils.get(
+            self.bot.get_all_channels(), name='bans-and-reasoning')
+        await bans_channel.send(embed=discord.Embed(color=Colour.red(),
+                                                    title=f'{user} has been Temp Muted',
+                                                    description=f'Reason: {reason}\nTimeline: {d_time} {d_term}\n*Operation initiated by @{ctx.author.nick}*'))
 
     @commands.command(description='Unban a given user')
     @commands.has_permissions(manage_messages=True)
@@ -236,9 +241,11 @@ class Moderation(commands.Cog):
 
             if (bUser.name, bUser.discriminator) == (user_name, user_id):
                 await ctx.guild.unban(bUser)
-                embed = discord.Embed(color=Colour.green(
-                ), title=f'Unbanned {bUser.name}#{bUser.discriminator}')
-                await ctx.send(embed=embed)
+                bans_channel = discord.utils.get(
+                    self.bot.get_all_channels(), name='bans-and-reasoning')
+                await bans_channel.send(embed=discord.Embed(color=Colour.green(),
+                                                            title=f'Unbanned {bUser.name}#{bUser.discriminator}',
+                                                            description=f'*Operation initiated by @{ctx.author.nick}*'))
                 return
 
     @commands.command(description='Used to unmute a given user')
