@@ -256,10 +256,23 @@ class Moderation(commands.Cog):
         """
         restricted_role = discord.utils.get(
             user.guild.roles, name="RESTRICTED")
+
+        conn, meta, tempbans = connect()
+        s = select([tempbans])
+        results = conn.execute(s)
+
+        for result in results:
+            if user.id == result[0]:
+                print(
+                    f'We got one! {user.name} will be removed from database. Proccessing...')
+                delete(user.id)
+
         await ctx.send(embed=discord.Embed(color=Colour.green(),
                                            title=f'{user} has been unmuted!',
                                            description=f'*Operation initiated by @{ctx.author.nick}*'))
         await discord.Member.remove_roles(user, restricted_role)
+
+        results.close()
 
 
 def setup(bot):

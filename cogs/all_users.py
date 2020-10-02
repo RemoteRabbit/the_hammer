@@ -4,6 +4,10 @@ import discord
 from discord.ext import commands
 
 
+council_roles = ['literally.noam.chomsky', 'literally.server.admin',
+                 'literally.moderator', 'literally.bots', 'mod', 'operations']
+
+
 class All_Users(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
@@ -38,13 +42,14 @@ class All_Users(commands.Cog):
 
         await ctx.send(content=f'{user.mention} ({user.name}#{user.discriminator}) joined in {user_joined.strftime("%d")} {refined_month} {user_joined.strftime("%Y")} at {user_joined.strftime("%H:%M")} UTC')
 
-    @ commands.command(description="Ping pong embeded command for testing connection")
+    @commands.command(description="Ping pong embeded command for testing connection")
     async def ping(self, ctx):
         """std ping pong command"""
         await ctx.send(embed=discord.Embed(
             title=f":ping_pong: Pong! {round(self.bot.latency * 1000)}ms"))
 
-    @ commands.command(description='Checks a users roles to make sure they have gone through the role onboarding process.', pass_context=True)
+    @commands.command(description='Checks a users roles to make sure they have gone through the role onboarding process.', pass_context=True)
+    @commands.has_any_role(*council_roles)
     async def role_check(self, ctx):
         """
         Checks your roles to make sure you have added roles
@@ -71,7 +76,7 @@ class All_Users(commands.Cog):
             await discord.Member.add_roles(user, member_role)
             await discord.Member.remove_roles(user, newbie_role)
 
-    @ commands.command(description='Socialism is when the government does stuff!')
+    @commands.command(description='Socialism is when the government does stuff!')
     async def socialism(self, ctx):
         """
         Socialism is when the government does stuff!

@@ -11,6 +11,7 @@ class Dev(commands.Cog):
         self.bot = bot
 
     # Manual load cog command
+
     @commands.command(description='Manual command for loading cogs')
     @commands.has_permissions(manage_messages=True)
     @commands.has_any_role('literally.bots', 'literally.dev')
