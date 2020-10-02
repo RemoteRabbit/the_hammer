@@ -21,7 +21,7 @@ class All_Users(commands.Cog):
         print(f'With the ID of {self.bot.user.id}')
         print('------')
 
-        await self.bot.change_presence(activity=discord.Game('-'))
+        await self.bot.change_presence(activity=discord.Game('h-'))
 
     @commands.command(description="Outputs when a given user joined server")
     async def joined(self, ctx, user: discord.Member = None):
