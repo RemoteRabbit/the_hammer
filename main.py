@@ -19,7 +19,6 @@ handler.setFormatter(logging.Formatter(
 logger.addHandler(handler)
 
 
-# Default invalid commad error message
 @bot.event
 async def on_command_error(ctx, error):
     if isinstance(error, commands.CommandNotFound):

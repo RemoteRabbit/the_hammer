@@ -57,8 +57,8 @@ class All_Users(commands.Cog):
         await ctx.send(embed=discord.Embed(
             title=f":ping_pong: Pong! {round(self.bot.latency * 1000)}ms"))
 
-    @commands.command(description='Checks a users roles to make sure they have gone through the role onboarding process.', pass_context=True)
-    @commands.has_any_role(*council_roles)
+    @commands.command(aliases=['role check'], description='Checks a users roles to make sure they have gone through the role onboarding process.', pass_context=True)
+    @commands.has_any_role('newbie')
     async def role_check(self, ctx):
         """
         Checks your roles to make sure you have added roles
