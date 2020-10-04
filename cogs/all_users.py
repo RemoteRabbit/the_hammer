@@ -23,6 +23,15 @@ class All_Users(commands.Cog):
 
         await self.bot.change_presence(activity=discord.Game('h-'))
 
+
+    @commands.command(description='Howdy there from Shen Bapiro')
+    async def howdy(self, ctx):
+        """
+        A good ol howdy from Shen Bapiro
+        """
+        await ctx.send(file=discord.File('./media/howdyben.png', filename='howdyben.png'))
+
+
     @commands.command(description="Outputs when a given user joined server")
     async def joined(self, ctx, user: discord.Member = None):
         """
