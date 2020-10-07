@@ -21,7 +21,7 @@ class All_Users(commands.Cog):
         print(f'With the ID of {self.bot.user.id}')
         print('------')
 
-        await self.bot.change_presence(activity=discord.Game('h-'))
+        await self.bot.change_presence(activity=discord.Game('-'))
 
 
     @commands.command(description='Howdy there from Shen Bapiro')
