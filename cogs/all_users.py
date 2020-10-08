@@ -84,6 +84,7 @@ class All_Users(commands.Cog):
             member_role = discord.utils.get(
                 user.guild.roles, name="literally.member")
             newbie_role = discord.utils.get(user.guild.roles, name="newbie")
+            print(newbie_role)
             await discord.Member.add_roles(user, member_role)
             await discord.Member.remove_roles(user, newbie_role)
             print('remove newbie roll')
