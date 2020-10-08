@@ -23,14 +23,12 @@ class All_Users(commands.Cog):
 
         await self.bot.change_presence(activity=discord.Game('-'))
 
-
     @commands.command(description='Howdy there from Shen Bapiro')
     async def howdy(self, ctx):
         """
         A good ol howdy from Shen Bapiro
         """
         await ctx.send(file=discord.File('./media/howdyben.png', filename='howdyben.png'))
-
 
     @commands.command(description="Outputs when a given user joined server")
     async def joined(self, ctx, user: discord.Member = None):
@@ -64,15 +62,19 @@ class All_Users(commands.Cog):
         Checks your roles to make sure you have added roles
         """
         user_roles = ctx.author.roles
+        print(user_roles, len(user_roles))
         user = ctx.author
 
         if len(user_roles) <= 2:
             channels = self.bot.get_all_channels()
+            print('got channels')
             for channel in channels:
                 if channel.name == "roles":
                     roles_channel = channel.id
+                    print(roles_channel)
                 elif channel.name == "rules":
                     rules_channel = channel.id
+                    print(rules_channel)
 
             await ctx.send(f'Please checkout <#{roles_channel}> and <#{rules_channel}>')
             newbie_role = discord.utils.get(user.guild.roles, name="newbie")
@@ -84,6 +86,7 @@ class All_Users(commands.Cog):
             newbie_role = discord.utils.get(user.guild.roles, name="newbie")
             await discord.Member.add_roles(user, member_role)
             await discord.Member.remove_roles(user, newbie_role)
+            print('remove newbie roll')
 
     @commands.command(description='Socialism is when the government does stuff!')
     async def socialism(self, ctx):

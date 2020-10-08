@@ -44,7 +44,7 @@ Setup is rather quick and simple.
   - [ ] Ability to connect to more than one voice channel
   - [ ] Ability to have 24/7 channels along with user input music channel
 - [ ] A leveling system
-- [ ] A task loop that checks to make sure a user hasnt removed any of their roles and if so bot removes the member role and re-adds the newbie role
+- [ ] A task loop that checks to make sure a user hasn't removed any of their roles and if so bot removes the member role and re-adds the newbie role
 - [ ] User facing website too allow for toggles and management (probably in flask or django)
-- [ ] Fix concurrent database connections issues
+- [x] Fix concurrent database connections issues
 - [ ] Hide load and unload functions
