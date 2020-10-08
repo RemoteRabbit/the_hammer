@@ -29,7 +29,7 @@ def connect():
         tempbans = Table('tempbans', meta, Column("id", Integer, primary_key=True),
                          autoload=True,
                          extend_existing=True)
-        conn.close()
+        conn.dispose()
     except (Exception, psycopg2.Error) as error:
         print("Error while fetching data from PostgreSQL", error)
     return conn, meta, tempbans
