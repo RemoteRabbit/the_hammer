@@ -47,3 +47,4 @@ Setup is rather quick and simple.
 - [ ] A task loop that checks to make sure a user hasnt removed any of their roles and if so bot removes the member role and re-adds the newbie role
 - [ ] User facing website too allow for toggles and management (probably in flask or django)
 - [ ] Fix concurrent database connections issues
+- [ ] Hide load and unload functions

@@ -5,7 +5,7 @@ import discord
 from discord.ext import commands
 
 
-description = '''This is the help stuff'''
+description = 'This is the help stuff'
 bot = commands.Bot(command_prefix='-', description=description)
 
 

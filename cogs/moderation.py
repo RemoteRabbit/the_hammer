@@ -9,6 +9,7 @@ from discord import Colour
 from discord.ext import commands, tasks
 from discord.utils import get
 from sqlalchemy import Column, Integer, MetaData, String, Table, select
+from sqlalchemy.pool import NullPool
 
 
 council_roles = ['literally.noam.chomsky', 'literally.server.admin',
@@ -21,13 +22,14 @@ def connect():
     """
     DATABASE_URL = os.environ['DATABASE_URL']
     try:
-        conn = sqlalchemy.create_engine(DATABASE_URL)
+        conn = sqlalchemy.create_engine(DATABASE_URL, poolclass=NullPool)
         meta = sqlalchemy.MetaData(bind=conn,
                                    reflect=True)
 
         tempbans = Table('tempbans', meta, Column("id", Integer, primary_key=True),
                          autoload=True,
                          extend_existing=True)
+        conn.close()
     except (Exception, psycopg2.Error) as error:
         print("Error while fetching data from PostgreSQL", error)
     return conn, meta, tempbans
