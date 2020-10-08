@@ -6,7 +6,7 @@ from discord.ext import commands
 
 
 description = 'This is the help stuff'
-bot = commands.Bot(command_prefix='h-', description=description)
+bot = commands.Bot(command_prefix='-', description=description)
 
 
 # Right now this is used for local dev, eventually make this part of the audit functionality
