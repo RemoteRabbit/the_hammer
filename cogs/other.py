@@ -1,8 +1,10 @@
 import random
 
 import discord
+from discord import Colour
 import joke_api
 from discord.ext import commands
+from aiohttp import request
 
 
 class Other(commands.Cog):
@@ -51,6 +53,44 @@ class Other(commands.Cog):
             await ctx.send("Couldn't get joke from API. Try again later.")
         else:
             await ctx.send(joke['setup'] + '\n' + joke['punchline'])
+
+    @commands.command(description='')
+    async def dog(self, ctx):
+        api_url = "https://random.dog/woof.json"
+        async with request("GET", api_url, headers={}) as response:
+            if response.status == 200:
+                data = await response.json()
+                image_url = data["url"]
+                await ctx.send(embed=discord.Embed(color=Colour.green()).set_image(url=image_url))
+            else:
+                await ctx.send(f"The API seems down, says {response.status}")
+
+    @dog.error
+    async def dog_error(self, ctx, error):
+        if isinstance(error, commands.CommandOnCooldown):
+            await ctx.send(error)
+        else:
+            await ctx.send(f'An error occured \n```\n{error}\n```\nPlease check the console for traceback')
+            raise error
+
+    @commands.command(description='')
+    async def cat(self, ctx):
+        api_url = 'http://aws.random.cat/meow'
+        async with request('GET', api_url, headers={}) as response:
+            if response.status == 200:
+                data = await response.json()
+                image_url = data['file']
+                await ctx.send(embed=discord.Embed(color=Colour.green()).set_image(url=image_url))
+            else:
+                await ctx.send(embed=discord.Embed(color=Colour.red(), title=f'Api is down', description=f'Response: {response.status}'))
+
+    @cat.error
+    async def cat_picture_error(self, ctx, error):
+        if isinstance(error, commands.CommandOnCooldown):
+            await ctx.send(error)
+        else:
+            await ctx.send(f'An error occured \n```\n{error}\n```\nPlease check the console for traceback')
+            raise error
 
 
 def setup(bot):

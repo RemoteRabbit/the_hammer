@@ -49,13 +49,17 @@ class All_Users(commands.Cog):
 
         await ctx.send(content=f'{user.mention} ({user.name}#{user.discriminator}) joined in {user_joined.strftime("%d")} {refined_month} {user_joined.strftime("%Y")} at {user_joined.strftime("%H:%M")} UTC')
 
+    @commands.command(description='')
+    async def magicman(self, ctx):
+        await ctx.send(file=discord.File('./media/magicman.mp4', filename='magicman.mp4'))
+
     @commands.command(description="Ping pong embeded command for testing connection")
     async def ping(self, ctx):
         """std ping pong command"""
         await ctx.send(embed=discord.Embed(
             title=f":ping_pong: Pong! {round(self.bot.latency * 1000)}ms"))
 
-    @commands.command(aliases=['role check'], description='Checks a users roles to make sure they have gone through the role onboarding process.', pass_context=True)
+    @commands.command(aliases=['rolecheck'], description='Checks a users roles to make sure they have gone through the role onboarding process.', pass_context=True)
     @commands.has_any_role('newbie')
     async def role_check(self, ctx):
         """
@@ -64,6 +68,7 @@ class All_Users(commands.Cog):
         user_roles = ctx.author.roles
         print(user_roles, len(user_roles))
         user = ctx.author
+        print(user)
 
         if len(user_roles) <= 2:
             channels = self.bot.get_all_channels()
@@ -88,6 +93,16 @@ class All_Users(commands.Cog):
             await discord.Member.add_roles(user, member_role)
             await discord.Member.remove_roles(user, newbie_role)
             print('remove newbie roll')
+
+    @commands.command()
+    async def newbie_removal(self, ctx, user: discord.Member):
+        newbie_role = discord.utils.get(user.guild.roles, name="newbie")
+        member_role = discord.utils.get(
+            user.guild.roles, name="literally.member")
+        print(newbie_role)
+        await discord.Member.add_roles(user, member_role)
+        await discord.Member.remove_roles(user, newbie_role)
+        print('done')
 
     @commands.command(description='Socialism is when the government does stuff!')
     async def socialism(self, ctx):

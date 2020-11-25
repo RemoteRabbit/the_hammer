@@ -48,3 +48,10 @@ Setup is rather quick and simple.
 - [ ] User facing website too allow for toggles and management (probably in flask or django)
 - [x] Fix concurrent database connections issues
 - [ ] Hide load and unload functions
+- [ ] Move everything into a `src` dir for Dockerizing it
+- [ ] Dockerize it
+- [ ] Move database functions out and into sep. file like the `joke_api`
+- [ ] Refactor the bug report code
+  - [ ] have it also create a github issue in the process
+- [ ] Add a mod command that gives a full user data dump
+- [ ] Seems to be an issue with the ban functionality, troubleshoot
